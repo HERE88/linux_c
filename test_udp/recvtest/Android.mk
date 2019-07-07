@@ -1,0 +1,10 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES := recv.c
+LOCAL_SHARED_LIBRARIES :=
+LOCAL_CFLAGS += -static
+LOCAL_CPPFLAGS +=
+LOCAL_MODULE := recvtest
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_EXECUTABLE)
