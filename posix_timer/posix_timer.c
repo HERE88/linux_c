@@ -60,10 +60,11 @@ void dataTimeoutThread(union sigval sig)
     DataStatRel * dsTmpPtr = (DataStatRel *)sig.sival_ptr;
     printf("start dataTimeoutThread! \n");
 
+    system("date");
     temp = dsTmpPtr->test;
     printf("wanghaitao success! temp = %d\n",temp);
 
-    deleteTimer(&(dsTmpPtr->timerId));
+    deleteTimer(&(dsTmpPtr->timerId));//If TIMER_PERIODIC, no need this line of code.
 }
 
 //add for POSIX timer
@@ -98,7 +99,7 @@ void createTimer(DataStatRel * dsPtr, timerTimeout func)
         printf("timer_create, error, id is -1.\n");
         return;
     }
-    printf("createTimer success, timerId[%d] \n", *timerId);
+    printf("createTimer success, timerId[%ld] \n", (long)(*timerId));
 
     return;
 }
@@ -111,7 +112,7 @@ void setTimer(DataStatRel * dsPtr, TIMER_TYPE type)
 
     if (*timerId == -1)
     {
-        printf("invalid parameter.timerId:%d; timeMSec:%d. \n", *timerId, timeMSec);
+        printf("invalid parameter.timerId:%ld; timeMSec:%d. \n", (long)(*timerId), timeMSec);
         return;
     }
 
@@ -135,7 +136,7 @@ void setTimer(DataStatRel * dsPtr, TIMER_TYPE type)
         printf("timer_settime errorr: %d - %s \n",  errno, strerror(errno));
         return;
     }
-    printf("setTimer success, timerId[%d], timeMSec:%u. \n", *timerId, timeMSec);
+    printf("setTimer success, timerId[%ld], timeMSec:%u. \n", (long)(*timerId), timeMSec);
 
     return;
 }
@@ -144,12 +145,12 @@ void deleteTimer(timer_t *timerId)
 {
     if (*timerId != -1)
     {
-        printf("delete timer.timerId:%d. \n", *timerId);
+        printf("delete timer.timerId:%ld. \n", (long)(*timerId));
         timer_delete(*timerId);
         *timerId = -1;
     }
 
-    printf("deleteTimer success, timerId[%d] \n", *timerId);
+    printf("deleteTimer success, timerId[%ld] \n", (long)(*timerId));
 
     return;
 }
@@ -162,12 +163,21 @@ int main()
     memset(&dataStat, 0, sizeof(DataStatRel));
     dataStat.test = 9011;
     dataStat.timerId = -1;
-    dataStat.wait_time = 10*1000; //10s
+    dataStat.wait_time = 5*1000; //5s
 
     createTimer(&dataStat, dataTimeoutThread);
     setTimer(&dataStat, TIMER_ONE_SHOT);
+    system("date");
+    
+    sleep(3);
+    system("date");
+    dataStat.wait_time = 10*1000;
+    setTimer(&dataStat, TIMER_ONE_SHOT);
 
     while(1); //等待定时器，否则主进程会直接退出
+    {
+        sleep(0xffffffff);
+    }
 
     return 0;
 }
