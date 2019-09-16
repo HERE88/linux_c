@@ -32,25 +32,25 @@
 
 int main(int argc, char *argv[])
 {
-	pid_t pid;
+    pid_t pid;
 
-	if(argc != 2)
-	{
-		printf("param error!\n");
-		return 0;
-	}
+    if(argc != 2)
+    {
+        printf("param error!\n");
+        return 0;
+    }
 
-	pid = atoi(argv[1]);
-	printf("pid =%d\n", pid);
+    pid = atoi(argv[1]);
+    printf("pid =%d\n", pid);
 
-	if(0 != kill(pid, SIGUSR2))
-	{
-		printf("kill failed\n");
-	}
-	else
-	{
-		printf("kill SIGUSR2 success.\n");
-	}
+    if(0 != kill(pid, SIGUSR2))
+    {
+        printf("kill failed\n");
+    }
+    else
+    {
+        printf("kill SIGUSR2 success.\n");
+    }
 
-	return 0;
+    return 0;
 }

@@ -56,30 +56,30 @@ int wait_rsp_status = 0;  // 0: waiting, 1: completed
 
 int main(int argc, char **argv)
 {
-	int ret_val;
-	struct timespec tsp;
-	maketimeout(&tsp, 1);
+    int ret_val;
+    struct timespec tsp;
+    maketimeout(&tsp, 1);
 
-	pthread_mutex_lock(&rsp_lock);
+    pthread_mutex_lock(&rsp_lock);
     while(0 == wait_rsp_status)
-	{
-		printf("cond sleeping...\n");
+    {
+        printf("cond sleeping...\n");
         ret_val = pthread_cond_timedwait(&rsp_ready, &rsp_lock, &tsp);
 
-		if(ret_val == ETIMEDOUT)
-		{
-			printf("ETIMEOUT recvd, will break! \n");
-		}
-		break;
+        if(ret_val == ETIMEDOUT)
+        {
+            printf("ETIMEOUT recvd, will break! \n");
+        }
+        break;
 
-	}
+    }
 
-	printf("cond sleep end \n");
+    printf("cond sleep end \n");
     pthread_mutex_unlock(&rsp_lock);
 
 
 
-	return 0;
+    return 0;
 
 
 }

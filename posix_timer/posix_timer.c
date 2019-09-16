@@ -168,7 +168,7 @@ int main()
     createTimer(&dataStat, dataTimeoutThread);
     setTimer(&dataStat, TIMER_ONE_SHOT);
     system("date");
-    
+
     sleep(3);
     system("date");
     dataStat.wait_time = 10*1000;

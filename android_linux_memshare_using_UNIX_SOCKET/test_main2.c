@@ -40,20 +40,20 @@ size_t region_size = 32;
 int main(int argc, char *argv[])
 {
     int ret_val = 0;
-	int fd, un_fd;
+    int fd, un_fd;
 
     char *data_ptr;
 
-	un_fd = cli_conn(UN_SOCKET_NAME);
-	if(un_fd < 0)
-		perror("cli_conn error");
+    un_fd = cli_conn(UN_SOCKET_NAME);
+    if(un_fd < 0)
+        perror("cli_conn error");
 
     //通过UNIX域套接字接收其他进程传递过来的fd
-	fd = recv_fd(un_fd, NULL);
-	if(fd < 0)
-		perror("recv_fd error");
+    fd = recv_fd(un_fd, NULL);
+    if(fd < 0)
+        perror("recv_fd error");
 
-	printf("received fd:%d\n", fd);
+    printf("received fd:%d\n", fd);
 
     //映射匿名共享内存
     data_ptr = mmap(NULL, region_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);

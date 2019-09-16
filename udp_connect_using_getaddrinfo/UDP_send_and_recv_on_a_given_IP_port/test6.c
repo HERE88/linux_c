@@ -20,7 +20,7 @@ int udp_connect(const char *host, const char *port, const char *remote_host, con
 
     bzero(&client, sizeof(client));
     client.sin_family = AF_INET;
-	client.sin_addr.s_addr = inet_addr(host);
+    client.sin_addr.s_addr = inet_addr(host);
     client.sin_port = htons(atoi(port));
 
     if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
@@ -28,7 +28,7 @@ int udp_connect(const char *host, const char *port, const char *remote_host, con
         printf("socket() error");
         exit(1);
     }
-	if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
+    if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
     {
         printf("bind() error.");
         exit(1);
@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
     int sockfd, num;
     char buf[MAXDATASIZE];
     // struct sockaddr_in server;
-	// struct sockaddr_in client;
+    // struct sockaddr_in client;
 
-	// bzero(&client, sizeof(client));
+    // bzero(&client, sizeof(client));
     // client.sin_family = AF_INET;
     // client.sin_port = htons(9080);
     // client.sin_addr.s_addr = inet_addr("127.0.0.1");
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         // printf("socket() error\n");
         // exit(1);
     // }
-	// if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
+    // if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
     // {
         // perror("Bind() error.\n");
         // exit(1);
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         // exit(1);
     // }
 
-	sockfd = udp_connect("127.0.0.1","9080","127.0.0.1","9090");
+    sockfd = udp_connect("127.0.0.1","9080","127.0.0.1","9090");
 
     while(1)
     {
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
             // printf("recv() error.\n");
             // exit(1);
         // }
-		if((num = read(sockfd, buf, MAXDATASIZE)) == -1)
+        if((num = read(sockfd, buf, MAXDATASIZE)) == -1)
         {
             printf("read() error.\n");
             exit(1);

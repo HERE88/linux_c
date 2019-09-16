@@ -45,26 +45,26 @@ pthread_t createSchedFifoThread(void* (*pThreadFunc)(void*), int priority)
 
 void* thread1(void *arg)
 {
-		int ret = -1;
-		int policy;
-		struct sched_param param;
-		ret = pthread_getschedparam(pthread_self(), &policy, &param);
-		if(ret != 0)
-			perror("pthread_getschedparam error");
-		switch(policy)
-		{
-			case SCHED_FIFO:
-				printf("SCHED_FIFO tp\n");
-				break;
-			case SCHED_RR:
-				printf("SCHED_FIFO tp\n");
-				break;
-			case SCHED_OTHER:
-				printf("SCHED_OTHER tp\n");
-				break;
+        int ret = -1;
+        int policy;
+        struct sched_param param;
+        ret = pthread_getschedparam(pthread_self(), &policy, &param);
+        if(ret != 0)
+            perror("pthread_getschedparam error");
+        switch(policy)
+        {
+            case SCHED_FIFO:
+                printf("SCHED_FIFO tp\n");
+                break;
+            case SCHED_RR:
+                printf("SCHED_FIFO tp\n");
+                break;
+            case SCHED_OTHER:
+                printf("SCHED_OTHER tp\n");
+                break;
 
 
-		}
+        }
         while(1)
         {
                 //printf("thread1\n");
@@ -72,26 +72,26 @@ void* thread1(void *arg)
 }
 
 void* thread2(void *arg)
-{		int ret = -1;
-		int policy;
-		struct sched_param param;
+{       int ret = -1;
+        int policy;
+        struct sched_param param;
 
-		ret = pthread_getschedparam(pthread_self(), &policy, &param);
-		if(ret != 0)
-			perror("pthread_getschedparam error");
+        ret = pthread_getschedparam(pthread_self(), &policy, &param);
+        if(ret != 0)
+            perror("pthread_getschedparam error");
 
-		switch(policy)
-		{
-			case SCHED_FIFO:
-				printf("SCHED_FIFO tp\n");
-				break;
-			case SCHED_RR:
-				printf("SCHED_FIFO tp\n");
-				break;
-			case SCHED_OTHER:
-				printf("SCHED_OTHER tp\n");
-				break;
-		}
+        switch(policy)
+        {
+            case SCHED_FIFO:
+                printf("SCHED_FIFO tp\n");
+                break;
+            case SCHED_RR:
+                printf("SCHED_FIFO tp\n");
+                break;
+            case SCHED_OTHER:
+                printf("SCHED_OTHER tp\n");
+                break;
+        }
         while(1)
         {
                 //printf("thread2\n");
@@ -103,7 +103,7 @@ int main(void)
         pthread_t id;
         printf("create thread1\n");
         //pthread_create(&id, NULL, thread1,NULL);
-		id = createSchedFifoThread(thread1, 10);
+        id = createSchedFifoThread(thread1, 10);
         sleep(3);
         printf("create thread2\n");
         id = createSchedFifoThread(thread2, 30);

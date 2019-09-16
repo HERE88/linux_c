@@ -16,33 +16,33 @@
 
 static char *getTimeStr(char ** bufPtr)
 {
-	char msgBuf[64] = {0};
-	struct timeval tv;
-	struct tm * tm_ptr;
+    char msgBuf[64] = {0};
+    struct timeval tv;
+    struct tm * tm_ptr;
 
-	gettimeofday(&tv, NULL);
+    gettimeofday(&tv, NULL);
     tm_ptr = localtime(&(tv.tv_sec));
 
-	snprintf(msgBuf, sizeof(msgBuf),"[%02d-%02d %02d:%02d:%02d.%06d]", tm_ptr->tm_mon, tm_ptr->tm_mday,
+    snprintf(msgBuf, sizeof(msgBuf),"[%02d-%02d %02d:%02d:%02d.%06d]", tm_ptr->tm_mon, tm_ptr->tm_mday,
         tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec, tv.tv_usec);
 
-	//printf("msgBuf: %s\n", msgBuf);
-	strncpy(*bufPtr, msgBuf, sizeof(msgBuf));
+    //printf("msgBuf: %s\n", msgBuf);
+    strncpy(*bufPtr, msgBuf, sizeof(msgBuf));
 
-	return (*bufPtr);
+    return (*bufPtr);
 }
 
 int main(int argc, char * argv[])
 {
-	char tempBuf[MAXLINE] = {0};
-	char *ptr = tempBuf; //传递二级指针！
-	//getTimeStr(&ptr); //不能直接getTimeStr(&tempBuf)!!
+    char tempBuf[MAXLINE] = {0};
+    char *ptr = tempBuf; //传递二级指针！
+    //getTimeStr(&ptr); //不能直接getTimeStr(&tempBuf)!!
 
-	//printf("tempBuf: %s\n", tempBuf);
-	while(1)
-	{
-		printf("return : %s\n", getTimeStr(&ptr));
-		usleep(1000*1000);
-	}
-	return 0;
+    //printf("tempBuf: %s\n", tempBuf);
+    while(1)
+    {
+        printf("return : %s\n", getTimeStr(&ptr));
+        usleep(1000*1000);
+    }
+    return 0;
 }

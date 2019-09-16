@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
@@ -19,12 +21,12 @@ typedef unsigned  int                       UINT32;
 
 #define DEFAULT_MAX_ROTATED_LOGS 4
 
-static const char * g_outputFileName = "pc5_msg.log";
+static const char * g_outputFileName = "temp_msg.log";
 // 0 means "no log rotation"
 static size_t g_logRotateSizeKBytes = 1*1024;  //每一个输出文件的最大容量
 // 0 means "unbounded"
 static size_t g_maxRotatedLogs = DEFAULT_MAX_ROTATED_LOGS;  //输出文件最大个数
-static int g_outFD = -1;
+static FILE * g_outFP = NULL;
 static size_t g_outByteCount = 0;
 //static int g_printBinary = 0;
 //static int g_devCount = 0;                              // >1 means multiple
@@ -33,43 +35,41 @@ static size_t g_outByteCount = 0;
 #define SIZE_MAX      10*1024*1024
 
 /*******************************************************************/
-static int openLogFile (const char *pathname);
+static FILE * openLogFile (const char *pathname);
 static void setupOutput();
 static void rotateLogs();
 static int printBinary(void *bufPtr, size_t bufLen);
 
 /*******************************************************************/
 
-static int openLogFile (const char *pathname)
+static FILE * openLogFile (const char *pathname)
 {
-    return open(pathname, O_WRONLY | O_APPEND | O_CREAT , S_IRUSR | S_IWUSR);
+    return fopen(pathname, "ab");
 }
 
 static void setupOutput()
 {
 
     if (g_outputFileName == NULL) {
-        g_outFD = STDOUT_FILENO;
+        g_outFP = stdout;
 
     } else {
-        g_outFD = openLogFile (g_outputFileName);
+        g_outFP = openLogFile (g_outputFileName);
 
-        if (g_outFD < 0) {
+        if (g_outFP == NULL) {
             perror("couldn't open output file \n");
         }
 
-        struct stat statbuf;
-        if (fstat(g_outFD, &statbuf) == -1) {
-            close(g_outFD);
-            perror("couldn't get output file stat\n");
-        }
+        int fileSize = 0;
+        fseek(g_outFP, 0, SEEK_END);
+        fileSize = ftell(g_outFP);
 
-        if ((size_t) statbuf.st_size > SIZE_MAX || statbuf.st_size < 0) {
-            close(g_outFD);
+        if ((size_t) fileSize > SIZE_MAX || fileSize < 0) {
+            fclose(g_outFP);
             perror("invalid output file stat\n");
         }
 
-        g_outByteCount = statbuf.st_size;
+        g_outByteCount = fileSize;
     }
 }
 
@@ -82,7 +82,7 @@ static void rotateLogs()
         return;
     }
 
-    close(g_outFD);
+    fclose(g_outFP);
 
     // Compute the maximum number of digits needed to count up to g_maxRotatedLogs in decimal.
     // eg: g_maxRotatedLogs == 30 -> log10(30) == 1.477 -> maxRotationCountDigits == 2
@@ -115,9 +115,9 @@ static void rotateLogs()
         free(file0);
     }
 
-    g_outFD = openLogFile(g_outputFileName);
+    g_outFP = openLogFile(g_outputFileName);
 
-    if (g_outFD < 0) {
+    if (g_outFP == 0) {
         printf("couldn't open output file \n");
     }
 
@@ -128,10 +128,10 @@ static void rotateLogs()
 static int printBinary(void *bufPtr, size_t bufLen)
 {
     int bytesWritten = 0;
-    bytesWritten = write(g_outFD, bufPtr, bufLen);
+    bytesWritten = fwrite(bufPtr, 1, bufLen, g_outFP);  //NOTICE: fwrite return number of OBJECTS written
     if( bytesWritten < 0 )
     {
-        printf("write to %s error.\n ", g_outputFileName);
+        printf("fwrite to %s error.\n ", g_outputFileName);
         return -1;
     }
 
@@ -154,8 +154,8 @@ char *getTimeStr(char ** bufPtr)
     gettimeofday(&tv, NULL);
     tm_ptr = localtime(&(tv.tv_sec));
 
-    snprintf(msgBuf, sizeof(msgBuf),"%02d-%02d %02d:%02d:%02d.%06d", tm_ptr->tm_mon, tm_ptr->tm_mday,
-        tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec, tv.tv_usec);
+    snprintf(msgBuf, sizeof(msgBuf),"%02d-%02d %02d:%02d:%02d.%06d", (int)tm_ptr->tm_mon, (int)tm_ptr->tm_mday,
+        (int)tm_ptr->tm_hour, (int)tm_ptr->tm_min, (int)tm_ptr->tm_sec, (int)tv.tv_usec);
 
     //printf("msgBuf: %s\n", msgBuf);
     strncpy(*bufPtr, msgBuf, sizeof(msgBuf));

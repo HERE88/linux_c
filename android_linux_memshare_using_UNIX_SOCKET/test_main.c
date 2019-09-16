@@ -43,7 +43,7 @@ int main()
     //pid_t pid;
 
     int fd, un_listen_fd, un_fd;
-	uid_t uid;
+    uid_t uid;
     char *data_ptr = NULL;
 
     region_size = 32;
@@ -55,24 +55,24 @@ int main()
         printf("ashmem_create_region error\n");
     }
 
-	memset(&uid, 0, sizeof(uid_t));
+    memset(&uid, 0, sizeof(uid_t));
     un_listen_fd = serv_listen(UN_SOCKET_NAME);
-	if(un_listen_fd < 0)
-	{
-		perror("serv_listen error");
-	}
+    if(un_listen_fd < 0)
+    {
+        perror("serv_listen error");
+    }
 
-	un_fd = serv_accept(un_listen_fd, &uid);
-		if(un_fd < 0)
-	{
-		perror("serv_accept error");
-	}
+    un_fd = serv_accept(un_listen_fd, &uid);
+        if(un_fd < 0)
+    {
+        perror("serv_accept error");
+    }
 
     //通过UNIX域套接字把匿名共享内存的fd传递给其他进程！！
-	if(0 != send_fd(un_fd, fd))
-	{
-		perror("send_fd error");
-	}
+    if(0 != send_fd(un_fd, fd))
+    {
+        perror("send_fd error");
+    }
 
     //映射匿名共享内存
     data_ptr = mmap(NULL, region_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
@@ -80,7 +80,7 @@ int main()
     {
         printf("mmap sharemem success\n");
         memset(data_ptr, 0x7f, region_size);
-		close(fd); //映射完成后可以关闭fd
+        close(fd); //映射完成后可以关闭fd
 
     }
     else

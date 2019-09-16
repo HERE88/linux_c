@@ -74,28 +74,28 @@ int open_clientfd(char *hostname, char *port) {
 
 int main()
 {
-	int i, fd;
-	for(i = 0; i < 20; ++i)
-	{
-		fd = open_clientfd("127.0.0.1", "9998");
-		if(fd < 0){
-			perror("open_clientfd failed");
-			sleep(1);
-			continue;
-		}
-		break;
+    int i, fd;
+    for(i = 0; i < 20; ++i)
+    {
+        fd = open_clientfd("127.0.0.1", "9998");
+        if(fd < 0){
+            perror("open_clientfd failed");
+            sleep(1);
+            continue;
+        }
+        break;
 
-	}
-	if(i >= 20)
-	{
-		printf("exit\n");
-	}
-	else{
-		printf("fd:%d\n",fd);
-	}
+    }
+    if(i >= 20)
+    {
+        printf("exit\n");
+    }
+    else{
+        printf("fd:%d\n",fd);
+    }
 
-	while(1){
-		sleep(0xffffffff);
-	}
-	return 0;
+    while(1){
+        sleep(0xffffffff);
+    }
+    return 0;
 }

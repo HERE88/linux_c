@@ -91,43 +91,43 @@ int open_listenfd(char *port)
 
 int main()
 {
-	char *send = "\r\nWANGHAITAO\r\n";
+    char *send = "\r\nWANGHAITAO\r\n";
 
-	int listen_fd, connect_fd;
-
-
-	listen_fd = open_listenfd("7770");
-
-	connect_fd = accept(listen_fd, 0, 0);
-
-	write(connect_fd, send, strlen(send));
-
-	sleep(3);
-
-	send = "\r\nMORNINGCORE\r\n";
-	write(connect_fd, send, strlen(send));
-
-	sleep(3);
-
-	send = "\r\nLIYING\r\n              \r\nHELLOWOLD\r\n";
-	write(connect_fd, send, strlen(send));
-
-	sleep(3);
-
-	send = "\r\nTHANK";
-	write(connect_fd, send, strlen(send));
-
-	sleep(3);
-
-	send = "YOU\r\n";
-	write(connect_fd, send, strlen(send));
+    int listen_fd, connect_fd;
 
 
+    listen_fd = open_listenfd("7770");
 
-	pause();
+    connect_fd = accept(listen_fd, 0, 0);
+
+    write(connect_fd, send, strlen(send));
+
+    sleep(3);
+
+    send = "\r\nMORNINGCORE\r\n";
+    write(connect_fd, send, strlen(send));
+
+    sleep(3);
+
+    send = "\r\nLIYING\r\n              \r\nHELLOWOLD\r\n";
+    write(connect_fd, send, strlen(send));
+
+    sleep(3);
+
+    send = "\r\nTHANK";
+    write(connect_fd, send, strlen(send));
+
+    sleep(3);
+
+    send = "YOU\r\n";
+    write(connect_fd, send, strlen(send));
 
 
-	return 0;
+
+    pause();
+
+
+    return 0;
 
 
 }

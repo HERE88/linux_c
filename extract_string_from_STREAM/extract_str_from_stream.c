@@ -196,7 +196,7 @@ static int extract_str_from_buf(char *buf, int buf_size, char *str_out)
     if (!is_str_complete(buf, buf_size))
         return 0; //not complete, return ==0.
 
-	//there is one complete str:
+    //there is one complete str:
     str_size = g_str_end - g_str_begin + 1; //g_str_begin and g_str_end were set in function is_at_complete()
     memcpy(str_out, g_str_begin, str_size);
     str_out[str_size] = '\0';
@@ -266,11 +266,11 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-	//initialize
-	memset(&g_read_buf, 0, sizeof(read_t));
+    //initialize
+    memset(&g_read_buf, 0, sizeof(read_t));
 
-	//open_fd
-	read_init(&g_read_buf, fd);
+    //open_fd
+    read_init(&g_read_buf, fd);
 
     //read loop
     while(1)

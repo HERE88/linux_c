@@ -18,7 +18,7 @@ int main(void)
     struct sockaddr_in client;
     socklen_t len;
     int num;
-	time_t ticks;
+    time_t ticks;
     char buf[MAXDATASIZE];
     if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
     {
@@ -51,24 +51,24 @@ int main(void)
             // break;
         // }
     // }
-	bzero(&client, sizeof(client));
+    bzero(&client, sizeof(client));
     client.sin_family = AF_INET;
     client.sin_port = htons(9080);
     client.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-	while(1)
+    while(1)
     {
-		// ticks = time(NULL);
-		// snprintf(buf, sizeof(buf), "%.24s\n", ctime(&ticks));
-		// sendto(sockfd, buf, strlen(buf), 0, (struct sockaddr *)&client, sizeof(client));
-		// printf("send:%s\n", buf);
-		// sleep(2);
+        // ticks = time(NULL);
+        // snprintf(buf, sizeof(buf), "%.24s\n", ctime(&ticks));
+        // sendto(sockfd, buf, strlen(buf), 0, (struct sockaddr *)&client, sizeof(client));
+        // printf("send:%s\n", buf);
+        // sleep(2);
 
-		ticks = time(NULL);
-		snprintf(buf, sizeof(buf), "%.24s\n", ctime(&ticks));
-		sendto(sockfd, buf ,strlen(buf), 0, (struct sockaddr *)&client, len);
-		printf("send:%s",buf);
-		sleep(2);
+        ticks = time(NULL);
+        snprintf(buf, sizeof(buf), "%.24s\n", ctime(&ticks));
+        sendto(sockfd, buf ,strlen(buf), 0, (struct sockaddr *)&client, len);
+        printf("send:%s",buf);
+        sleep(2);
     }
     close(sockfd);
 }

@@ -17,19 +17,19 @@ int udp_connect(const char *host, const char *port, const char *remote_host, con
     int sockfd, tc, ret;
     struct sockaddr_in6 client;
     struct sockaddr_in6 server;
-	char str[1024];
+    char str[1024];
 
     bzero(&client, sizeof(client));
     client.sin6_family = AF_INET6;
-	//client.sin_addr.s_addr = inet_addr(host);
-	ret = inet_pton(AF_INET6, host, &client.sin6_addr);
-	if(ret == 1)
-		printf("inet_pton: OK\n");
-	else if(ret == 0)
-		printf("inet_pton: Input not a valid presentation format.\n");
-	else if(ret == -1)
-		printf("inet_pton: error\n");
-	printf("IPV6:[%s]\n", inet_ntop(AF_INET6, &client.sin6_addr, str, sizeof(str)));
+    //client.sin_addr.s_addr = inet_addr(host);
+    ret = inet_pton(AF_INET6, host, &client.sin6_addr);
+    if(ret == 1)
+        printf("inet_pton: OK\n");
+    else if(ret == 0)
+        printf("inet_pton: Input not a valid presentation format.\n");
+    else if(ret == -1)
+        printf("inet_pton: error\n");
+    printf("IPV6:[%s]\n", inet_ntop(AF_INET6, &client.sin6_addr, str, sizeof(str)));
 
     client.sin6_port = htons(atoi(port));
 
@@ -38,7 +38,7 @@ int udp_connect(const char *host, const char *port, const char *remote_host, con
         printf("socket() error");
         exit(1);
     }
-	if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
+    if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
     {
         printf("bind() error.");
         exit(1);
@@ -47,13 +47,13 @@ int udp_connect(const char *host, const char *port, const char *remote_host, con
     bzero(&server, sizeof(server));
     server.sin6_family = AF_INET6;
     //server.sin_addr.s_addr = inet_addr(remote_host);
-	ret = inet_pton(AF_INET6, remote_host, &server.sin6_addr);
-	if(ret == 1)
-		printf("2inet_pton: OK\n");
-	else if(ret == 0)
-		printf("2inet_pton: Input not a valid presentation format.\n");
-	else if(ret == -1)
-		printf("2inet_pton: error\n");
+    ret = inet_pton(AF_INET6, remote_host, &server.sin6_addr);
+    if(ret == 1)
+        printf("2inet_pton: OK\n");
+    else if(ret == 0)
+        printf("2inet_pton: Input not a valid presentation format.\n");
+    else if(ret == -1)
+        printf("2inet_pton: error\n");
 
     server.sin6_port = htons(atoi(remote_port));
 
@@ -84,9 +84,9 @@ int main(int argc, char *argv[])
     int sockfd, num;
     char buf[MAXDATASIZE];
     // struct sockaddr_in server;
-	// struct sockaddr_in client;
+    // struct sockaddr_in client;
 
-	// bzero(&client, sizeof(client));
+    // bzero(&client, sizeof(client));
     // client.sin_family = AF_INET;
     // client.sin_port = htons(9080);
     // client.sin_addr.s_addr = inet_addr("127.0.0.1");
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
         // printf("socket() error\n");
         // exit(1);
     // }
-	// if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
+    // if(bind(sockfd, (struct sockaddr *)&client, sizeof(client)) == -1)
     // {
         // perror("Bind() error.\n");
         // exit(1);
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
         // exit(1);
     // }
 
-	sockfd = udp_connect("::FFFF:127.0.0.1","9080","::FFFF:127.0.0.1","9090");
+    sockfd = udp_connect("::FFFF:127.0.0.1","9080","::FFFF:127.0.0.1","9090");
 
     while(1)
     {
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
             // printf("recv() error.\n");
             // exit(1);
         // }
-		if((num = read(sockfd, buf, MAXDATASIZE)) == -1)
+        if((num = read(sockfd, buf, MAXDATASIZE)) == -1)
         {
             printf("read() error.\n");
             exit(1);
