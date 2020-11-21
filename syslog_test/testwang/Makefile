@@ -1,0 +1,16 @@
+LOCAL_PATH := $(MORNINGCORE_ROOT)/testwang
+
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES :=  $(LOCAL_PATH)/testwang.c 
+							     
+LOCAL_C_INCLUDES := $(LOCAL_PATH)
+					
+                    
+					
+#LOCAL_CFLAGS += -static
+#LOCAL_CFLAGS += -DOPT_FOR_ANDROID
+LOCAL_SHARED_LIBRARIES := m
+#LOCAL_CFLAGS += -DDEBUG_FOR_PKGS
+LOCAL_MODULE := testwang
+INSTPATH := $(TARGET_OUTPUT_PATH)usr/sbin
+include $(BUILD_EXECUTABLE)
