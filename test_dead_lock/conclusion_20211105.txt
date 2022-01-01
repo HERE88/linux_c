@@ -1,0 +1,26 @@
+【总结：】
+1、首先后台运行进程：
+     ./test_dead_lock &
+
+2、运行gdb：
+     root@wang-VirtualBox:/mnt# gdb
+
+3、在gdb中运行：
+     (gdb) attach 1942
+     (gdb) info threads
+     (gdb) thread 3
+     (gdb) bt
+     (gdb) p lock1
+
+
+
+
+
+
+
+
+
+
+
+
+
